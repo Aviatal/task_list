@@ -15,7 +15,7 @@ class TasksController extends Controller
 
     public function show(int $id): \Illuminate\Contracts\View\View
     {
-        $task = Task::query()->find($id);
+        $task = Task::query()->findOrFail($id);
         return view('tasks.show', compact('task'));
     }
 }
