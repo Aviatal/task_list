@@ -18,4 +18,15 @@ class TasksController extends Controller
         $task = Task::query()->findOrFail($id);
         return view('tasks.show', compact('task'));
     }
+
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+        ]);
+
+        $newTask = Task::query()->create($request->except('_token'));
+        return redirect()->route('tasks.show', ['id' => $newTask->id]);
+    }
 }
