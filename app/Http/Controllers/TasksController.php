@@ -35,6 +35,13 @@ class TasksController extends Controller
         return redirect()->route('tasks.show', ['task' => $task->id])
             ->with('success', 'Task updated successfully');
     }
+
+    public function toggleCompleted(Task $task): \Illuminate\Http\RedirectResponse
+    {
+        $task->completed = !$task->completed;
+        $task->save();
+        return redirect()->back()->with('success', 'Task updated successfully');
+    }
     public function destroy(Task $task): \Illuminate\Http\RedirectResponse
     {
         $task->delete();

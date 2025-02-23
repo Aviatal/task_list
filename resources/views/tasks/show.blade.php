@@ -13,6 +13,16 @@
     <p>{{ $task->updated_at }}</p>
 
     <div>
+        <form action="{{ route('tasks.toggle-completed', ['task' => $task->id]) }}" method="POST">
+            @csrf
+            @method('PATCH')
+            <button type="submit">
+                {{ $task->completed ? 'Mark as uncompleted' : 'Mark as completed' }}
+            </button>
+        </form>
+    </div>
+
+    <div>
         <a href="{{ route('tasks.edit', ['task' => $task->id]) }}">Edit</a>
     </div>
 
