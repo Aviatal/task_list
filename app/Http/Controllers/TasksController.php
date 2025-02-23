@@ -35,4 +35,10 @@ class TasksController extends Controller
         return redirect()->route('tasks.show', ['task' => $task->id])
             ->with('success', 'Task updated successfully');
     }
+    public function destroy(Task $task): \Illuminate\Http\RedirectResponse
+    {
+        $task->delete();
+        return redirect()->route('tasks.index')
+            ->with('success', 'Task deleted successfully');
+    }
 }
