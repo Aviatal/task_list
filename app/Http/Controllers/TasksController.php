@@ -17,6 +17,10 @@ class TasksController extends Controller
     {
         return view('tasks.show', compact('task'));
     }
+    public function edit(Task $task): \Illuminate\Contracts\View\View
+    {
+        return view('tasks.edit', compact('task'));
+    }
 
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
@@ -28,5 +32,17 @@ class TasksController extends Controller
         $newTask = Task::query()->create($request->except('_token'));
         return redirect()->route('tasks.show', ['task' => $newTask->id])
             ->with('success', 'Task created successfully');
+    }
+
+    public function update(Request $request, Task $task): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+        ]);
+
+        $task->update($request->except('_token'));
+        return redirect()->route('tasks.show', ['task' => $task->id])
+            ->with('success', 'Task updated successfully');
     }
 }
