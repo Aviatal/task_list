@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskRequest;
 use App\Models\Task;
-use Illuminate\Http\Request;
 
 class TasksController extends Controller
 {
@@ -22,24 +22,18 @@ class TasksController extends Controller
         return view('tasks.edit', compact('task'));
     }
 
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(TaskRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
-        ]);
+        $request->validated();
 
         $newTask = Task::query()->create($request->except('_token'));
         return redirect()->route('tasks.show', ['task' => $newTask->id])
             ->with('success', 'Task created successfully');
     }
 
-    public function update(Request $request, Task $task): \Illuminate\Http\RedirectResponse
+    public function update(TaskRequest $request, Task $task): \Illuminate\Http\RedirectResponse
     {
-        $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
-        ]);
+        $request->validated();
 
         $task->update($request->except('_token'));
         return redirect()->route('tasks.show', ['task' => $task->id])
