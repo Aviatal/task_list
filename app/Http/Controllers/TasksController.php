@@ -9,7 +9,7 @@ class TasksController extends Controller
 {
     public function index(): \Illuminate\Contracts\View\View
     {
-        $tasks = Task::all();
+        $tasks = Task::query()->paginate(15);
         return view('tasks.index', compact('tasks'));
     }
 
